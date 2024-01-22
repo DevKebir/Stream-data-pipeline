@@ -17,7 +17,7 @@ Before running the script, make sure you have the following:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/weather-data-streaming.git
+   git clone https://github.com/DevKebir/Stream-weather-data-pipeline.git
    cd weather-data-streaming
 
 
@@ -25,11 +25,11 @@ Before running the script, make sure you have the following:
 - pip install -r requirements.txt
 
 ## Create a .env file in the project root and set the following variables
-AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY
-AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY
-STREAM_NAME=your_kinesis_firehose_stream_name
-API_KEY=your_openweathermap_api_key
-REGION_NAME=your_aws_region
+- AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY
+- AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY
+- STREAM_NAME=your_kinesis_firehose_stream_name
+- API_KEY=your_openweathermap_api_key
+- REGION_NAME=your_aws_region
 
 
 
