@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  OpenweatherVM:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: "ami-i-0db78f2bb91ee35f9"
+      InstanceType: "t2.micro"
+      KeyName: "Ingest-Vm-connect.pem"
+      IamInstanceProfile: "MonInstanceProfile"
+  OpenweatherStorage:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: "openweather-storage"
+      
+  WeatherAnalyticsFirehose:
+    Type: "AWS::KinesisFirehose::DeliveryStream"
+    Properties:
+      DeliveryStreamName: "weather-analytics"
+      S3DestinationConfiguration:
+        BucketARN: !GetAtt OpenweatherStorage.Arn
+        RoleARN: !GetAtt WeatherAnalyticsFirehoseRole.Arn
+  WeatherAnalyticsFirehoseRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "KinesisFirehoseServicePolicy-weather-analytics-us-east-1"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "firehose.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: "WeatherAnalyticsFirehosePolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action: "s3:PutObject"
+                Resource: !Sub "${OpenweatherStorage.Arn}/*"
